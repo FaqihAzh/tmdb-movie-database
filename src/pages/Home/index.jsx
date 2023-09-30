@@ -7,7 +7,6 @@ import Category from "../../components/Category";
 const Home = () => {
   const TRENDING = ENDPOINTS.TRENDING;
   const POPULAR = ENDPOINTS.POPULAR;
-  const POPULAR_TV = ENDPOINTS.POPULAR_TV;
   const UPCOMING = ENDPOINTS.UPCOMING;
   const TOP_RATED = ENDPOINTS.TOP_RATED;
   const NOW_PLAYING = ENDPOINTS.NOW_PLAYING;
@@ -19,7 +18,7 @@ const Home = () => {
       <MoviesList
         title="Trending Movies"
         ENDPOINTS={TRENDING}
-        sm="2"
+        sm="2.5"
         md="3.5"
         lg="6.5"
         cursor="true"
@@ -29,7 +28,7 @@ const Home = () => {
       <MoviesList
         title="Now Playing Movies"
         ENDPOINTS={NOW_PLAYING}
-        sm="2"
+        sm="2.5"
         md="3.5"
         lg="6.5"
         cursor="true"
@@ -39,7 +38,7 @@ const Home = () => {
       <MoviesList
         title="Upcoming Movies"
         ENDPOINTS={UPCOMING}
-        sm="2"
+        sm="2.5"
         md="3.5"
         lg="6.5"
         cursor="true"
@@ -49,7 +48,7 @@ const Home = () => {
       <MoviesList
         title="Popular Movies"
         ENDPOINTS={POPULAR}
-        sm="2"
+        sm="2.5"
         md="3.5"
         lg="6.5"
         cursor="true"
