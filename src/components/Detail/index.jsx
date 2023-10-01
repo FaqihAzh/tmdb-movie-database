@@ -43,8 +43,6 @@ const DetailMovie = () => {
     setMovie(response.data);
   }
 
-  console.log(movie);
-
   return (
     <div
       className="py-24 sm:py-36 w-full relative bg-center bg-cover bg-no-repeat min-h-screen"
