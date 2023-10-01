@@ -62,7 +62,7 @@ const DetailMovie = () => {
           <div className="flex flex-col gap-4">
             <Typography variant="title">
               {movie.title ? movie.title : movie.name}
-              <span className="font-semibold">({date ? date : ""})</span>
+              <span className="font-semibold"> ({date ? date : ""})</span>
             </Typography>
             <Typography variant="subtitle">
               <span className="text-yellow-500">{genres ? genres : ""}</span>
