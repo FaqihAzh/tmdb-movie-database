@@ -26,8 +26,11 @@ const DetailMovie = () => {
     movie &&
     movie.production_countries.map((countries) => countries.name).join(", ");
   const rate = movie && movie.vote_average.toFixed(1);
+  const url =
+    movie && movie.videos.results.find((video) => video.type === "Trailer");
   const trailer =
-    movie && `https://www.youtube.com/watch?v=${movie.videos.results[0].key}`;
+    movie &&
+    `https://www.youtube.com/watch?v=${url.key || movie.videos.results[0].key}`;
 
   useEffect(() => {
     getDetailMovie();
