@@ -6,6 +6,8 @@ import Category from "../../components/Category";
 import { getPopularAct } from "../../features/actions/movieActions/getPopular";
 import Loader from "../../components/Loader";
 import { setLoading } from "../../features/reducers/moviesSlice";
+import { useGetDataUser } from "../../services/auth/get_user";
+import { setUser } from "../../features/reducers/authSlice/authLogin";
 
 const PopularPage = () => {
   const dispatch = useDispatch();
@@ -15,10 +17,13 @@ const PopularPage = () => {
 
   const mediaType = isTv ? "tv" : "movie";
 
+  const { data } = useGetDataUser();
+
   useEffect(() => {
     dispatch(setLoading(true));
+    dispatch(setUser({ data }));
     getPopularMovies();
-  }, [isTv]);
+  }, [isTv, data]);
 
   const getPopularMovies = () => {
     dispatch(getPopularAct(mediaType));

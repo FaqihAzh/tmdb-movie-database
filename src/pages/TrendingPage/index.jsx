@@ -6,6 +6,8 @@ import Category from "../../components/Category";
 import { getTrendingAct } from "../../features/actions/movieActions/getTrending";
 import { setLoading } from "../../features/reducers/moviesSlice";
 import Loader from "../../components/Loader";
+import { useGetDataUser } from "../../services/auth/get_user";
+import { setUser } from "../../features/reducers/authSlice/authLogin";
 
 const TrendingPage = () => {
   const dispatch = useDispatch();
@@ -15,10 +17,13 @@ const TrendingPage = () => {
 
   const mediaType = isTv ? "tv" : "movie";
 
+  const { data } = useGetDataUser();
+
   useEffect(() => {
     dispatch(setLoading(true));
+    dispatch(setUser({ data }));
     getTrendingMovies();
-  }, [isTv]);
+  }, [isTv, data]);
 
   const getTrendingMovies = () => {
     dispatch(getTrendingAct(mediaType));

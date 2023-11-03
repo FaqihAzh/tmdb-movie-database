@@ -6,6 +6,8 @@ import Category from "../../components/Category";
 import { getTopRatedAct } from "../../features/actions/movieActions/getTopRated";
 import { setLoading } from "../../features/reducers/moviesSlice";
 import Loader from "../../components/Loader";
+import { useGetDataUser } from "../../services/auth/get_user";
+import { setUser } from "../../features/reducers/authSlice/authLogin";
 
 const TopRatedPage = () => {
   const dispatch = useDispatch();
@@ -14,11 +16,13 @@ const TopRatedPage = () => {
   const isTv = useSelector((store) => store.movies.tv);
 
   const mediaType = isTv ? "tv" : "movie";
+  const { data } = useGetDataUser();
 
   useEffect(() => {
     dispatch(setLoading(true));
+    dispatch(setUser({ data }));
     getTopRatedMovies();
-  }, [isTv]);
+  }, [isTv, data]);
 
   const getTopRatedMovies = () => {
     dispatch(getTopRatedAct(mediaType));

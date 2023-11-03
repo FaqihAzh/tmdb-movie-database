@@ -9,16 +9,21 @@ import Movies from "../../components/Movies";
 import Loader from "../../components/Loader";
 import { getDetailsAct } from "../../features/actions/movieActions/getDetails";
 import MoviesList from "../../components/MoviesList";
+import { useGetDataUser } from "../../services/auth/get_user";
+import { setUser } from "../../features/reducers/authSlice/authLogin";
 
 const DetailPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
+  const { data } = useGetDataUser();
+
   useEffect(() => {
     dispatch(setLoading(true));
+    dispatch(setUser({ data }));
     getDetailMovie();
     getRecommendationMovies();
-  }, [params.id, dispatch]);
+  }, [params.id, dispatch, data]);
 
   const getRecommendationMovies = async () => {
     const response = await axios(ENDPOINTS.RECOMMENDATIONS(params.id));

@@ -9,6 +9,8 @@ import {
 } from "../../features/actions/movieActions/getNowPlaying";
 import { setLoading } from "../../features/reducers/moviesSlice";
 import Loader from "../../components/Loader";
+import { useGetDataUser } from "../../services/auth/get_user";
+import { setUser } from "../../features/reducers/authSlice/authLogin";
 
 const NowPlayingPage = () => {
   const dispatch = useDispatch();
@@ -16,10 +18,13 @@ const NowPlayingPage = () => {
   const movies = useSelector((store) => store.movies.movies);
   const isTv = useSelector((store) => store.movies.tv);
 
+  const { data } = useGetDataUser();
+
   useEffect(() => {
     dispatch(setLoading(true));
+    dispatch(setUser({ data }));
     getNowPlayingMovies();
-  }, [isTv]);
+  }, [isTv, data]);
 
   const getNowPlayingMovies = () => {
     if (isTv) {
