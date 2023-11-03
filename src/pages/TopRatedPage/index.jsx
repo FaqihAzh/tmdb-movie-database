@@ -1,33 +1,45 @@
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ENDPOINTS from "../../utils/constants/endpoint";
-import { updateMovie } from "../../features/moviesSlice";
 import Movies from "../../components/Movies";
 import Hero from "../../components/Hero";
 import Category from "../../components/Category";
+import { getTopRatedAct } from "../../features/actions/movieActions/getTopRated";
+import { setLoading } from "../../features/reducers/moviesSlice";
+import Loader from "../../components/Loader";
 
 const TopRatedPage = () => {
   const dispatch = useDispatch();
+  const loading = useSelector((store) => store.movies.loading);
+  const movies = useSelector((store) => store.movies.movies);
+  const isTv = useSelector((store) => store.movies.tv);
+
+  const mediaType = isTv ? "tv" : "movie";
 
   useEffect(() => {
+    dispatch(setLoading(true));
     getTopRatedMovies();
-  }, []);
+  }, [isTv]);
 
-  async function getTopRatedMovies() {
-    const response = await axios(ENDPOINTS.TOP_RATED);
-    const movies = response.data.results;
+  const getTopRatedMovies = () => {
+    dispatch(getTopRatedAct(mediaType));
+  };
 
-    dispatch(updateMovie(movies));
+  if (loading) {
+    return <Loader />;
   }
-
-  const movies = useSelector((store) => store.movies.movies);
 
   return (
     <div>
       <Hero />
       <Category />
-      <Movies title="Top Rated Movies" movies={movies} />
+      <Movies
+        title="Top Rated "
+        movies={movies}
+        data={{
+          first_switch: "Movies",
+          second_switch: "TV Series",
+        }}
+      />
     </div>
   );
 };

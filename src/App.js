@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
 import Home from "./pages/Home";
 import PopularPage from "./pages/PopularPage";
@@ -9,23 +9,96 @@ import DetailPage from "./pages/DetailPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import ScrollToTop from "./components/ScrollTop";
 import UpcomingPage from "./pages/UpcomingPage";
+import Login from "./components/Auth/Login";
+import Register from "./components/Auth/Register";
+import Protected from "./components/Auth/Protected";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   return (
     <>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/popular" element={<PopularPage />} />
-          <Route path="/upcoming" element={<UpcomingPage />} />
-          <Route path="/trending" element={<TrendingPage />} />
-          <Route path="/now-playing" element={<NowPlayingPage />} />
-          <Route path="/top-rated" element={<TopRatedPage />} />
-          <Route path="/movie/:id" element={<DetailPage />} />
-          <Route path="/search-results" element={<SearchResultsPage />} />
-        </Routes>
-        <ScrollToTop />
-      </Layout>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
+            <Route
+              path="/"
+              element={
+                <Protected>
+                  <Home />
+                </Protected>
+              }
+            />
+            <Route
+              path="/popular"
+              element={
+                <Protected>
+                  <PopularPage />
+                </Protected>
+              }
+            />
+            <Route
+              path="/upcoming"
+              element={
+                <Protected>
+                  <UpcomingPage />
+                </Protected>
+              }
+            />
+            <Route
+              path="/trending"
+              element={
+                <Protected>
+                  <TrendingPage />
+                </Protected>
+              }
+            />
+            <Route
+              path="/now-playing"
+              element={
+                <Protected>
+                  <NowPlayingPage />
+                </Protected>
+              }
+            />
+            <Route
+              path="/top-rated"
+              element={
+                <Protected>
+                  <TopRatedPage />
+                </Protected>
+              }
+            />
+            <Route
+              path="/:mediaType/:id"
+              element={
+                <Protected>
+                  <DetailPage />
+                </Protected>
+              }
+            />
+            <Route
+              path="/search-results"
+              element={
+                <Protected>
+                  <SearchResultsPage />
+                </Protected>
+              }
+            />
+            <Route
+              path="/details-tv"
+              element={
+                <Protected>
+                  <ErrorPage />
+                </Protected>
+              }
+            />
+          </Routes>
+          <ScrollToTop />
+        </Layout>
+      </BrowserRouter>
     </>
   );
 }

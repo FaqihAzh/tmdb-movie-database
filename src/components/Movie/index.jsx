@@ -2,6 +2,8 @@ import React from "react";
 import Button from "../Button";
 import Typography from "../Typography";
 import ENDPOINTS from "../../utils/constants/endpoint";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const Movie = ({ movie }) => {
   let background;
@@ -14,8 +16,21 @@ const Movie = ({ movie }) => {
     background = "https://picsum.photos/300/450";
   }
 
+  const location = useLocation();
+  const isTv = useSelector((store) => store.movies.tv);
+  const path = location.pathname;
+
+  let mediaType;
+  if (path.includes("/movie")) {
+    mediaType = `/movie/${movie.id}`;
+  } else if (path.includes("/tv")) {
+    mediaType = "/details-tv";
+  } else {
+    mediaType = isTv ? "/details-tv" : `/movie/${movie.id}`;
+  }
+
   return (
-    <Button type="link" href={`/movie/${movie.id}`}>
+    <Button type="link" href={mediaType}>
       <div className="relative">
         <div className="movie-container">
           <img src={background} alt={movie.title} className="rounded-xl" />
@@ -40,9 +55,11 @@ const Movie = ({ movie }) => {
           </svg>
         </div>
         {movie.release_date ? (
-          <Typography className="bg-yellow-500 px-3 py-1 rounded-2xl w-fit absolute right-2 top-2 opacity-90 text-white text-sm">
-            {movie.release_date.substring(0, 4)}
-          </Typography>
+          <div className="absolute right-2 top-2">
+            <Typography className="bg-yellow-500 px-3 py-1 rounded-2xl w-fit  opacity-90 text-white text-sm">
+              {movie.release_date.substring(0, 4)}
+            </Typography>
+          </div>
         ) : null}
         <Typography className="text-white text-sm mb-4 mt-1">
           {movie.title ? movie.title : movie.name}

@@ -1,13 +1,14 @@
-import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ENDPOINTS from "../../utils/constants/endpoint";
 import Button from "../Button";
+import { useDispatch } from "react-redux";
+import { getSearchAct } from "../../features/actions/movieActions/getSearch";
 
 const SearchInput = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -23,10 +24,9 @@ const SearchInput = () => {
     setSearchQuery(e.target.value);
   };
 
-  async function searchMovies() {
+  const searchMovies = async () => {
     if (searchQuery.trim() !== "") {
-      const response = await axios.get(ENDPOINTS.SEARCH(searchQuery));
-      const movies = response.data.results;
+      const movies = await dispatch(getSearchAct(searchQuery));
 
       navigate("/search-results?query=" + searchQuery, {
         state: { results: movies, query: searchQuery },
@@ -34,7 +34,7 @@ const SearchInput = () => {
     } else {
       inputRef.current.focus();
     }
-  }
+  };
 
   return (
     <div className="relative flex items-center text-gray-300 focus:text-white w-full sm:w-3/5">

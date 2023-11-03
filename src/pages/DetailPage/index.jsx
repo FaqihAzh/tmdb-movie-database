@@ -3,31 +3,57 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ENDPOINTS from "../../utils/constants/endpoint";
 import axios from "axios";
-import { updateMovie } from "../../features/moviesSlice";
+import { setLoading, updateMovie } from "../../features/reducers/moviesSlice";
 import DetailMovie from "../../components/Detail";
 import Movies from "../../components/Movies";
+import Loader from "../../components/Loader";
+import { getDetailsAct } from "../../features/actions/movieActions/getDetails";
+import MoviesList from "../../components/MoviesList";
 
 const DetailPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setLoading(true));
+    getDetailMovie();
     getRecommendationMovies();
-  }, [params.id]);
+  }, [params.id, dispatch]);
 
-  async function getRecommendationMovies() {
+  const getRecommendationMovies = async () => {
     const response = await axios(ENDPOINTS.RECOMMENDATIONS(params.id));
     const movies = response.data.results;
 
     dispatch(updateMovie(movies));
-  }
+  };
+
+  const getDetailMovie = () => {
+    dispatch(getDetailsAct(params.mediaType, params.id));
+  };
 
   const movies = useSelector((store) => store.movies.movies);
+  const loading = useSelector((store) => store.movies.loading);
+  const SIMILAR = ENDPOINTS.SIMILAR(params.mediaType, params.id);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div>
       <DetailMovie />
-      <Movies title="Recomendation Movies" movies={movies} />
+      <MoviesList
+        title="Because you're watching that"
+        ENDPOINTS={SIMILAR}
+        sm="2.5"
+        md="3.5"
+        lg="6.5"
+        cursor="true"
+        swiper="true"
+        grid="2"
+        justSwipe="true"
+      />
+      <Movies title="Recomendation for you" movies={movies} />
     </div>
   );
 };

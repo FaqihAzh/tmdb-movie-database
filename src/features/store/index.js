@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import moviesReducer from "../moviesSlice";
+import thunk from "redux-thunk";
+import rootReducers from "../reducers";
 
 const store = configureStore({
-  reducer: {
-    movies: moviesReducer,
-  },
+  reducer: rootReducers,
+
+  middleware: (getMiddleware) => getMiddleware().concat(thunk),
 });
 
 export default store;

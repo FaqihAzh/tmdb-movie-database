@@ -1,33 +1,50 @@
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ENDPOINTS from "../../utils/constants/endpoint";
-import { updateMovie } from "../../features/moviesSlice";
 import Movies from "../../components/Movies";
 import Hero from "../../components/Hero";
 import Category from "../../components/Category";
+import {
+  getUpcomingAct,
+  getUpcomingTvAct,
+} from "../../features/actions/movieActions/getUpcoming";
+import { setLoading } from "../../features/reducers/moviesSlice";
+import Loader from "../../components/Loader";
 
 const UpcomingPage = () => {
   const dispatch = useDispatch();
+  const loading = useSelector((store) => store.movies.loading);
+  const movies = useSelector((store) => store.movies.movies);
+  const isTv = useSelector((store) => store.movies.tv);
 
   useEffect(() => {
-    getPopularMovies();
-  }, []);
+    dispatch(setLoading(true));
+    getTopRatedMovies();
+  }, [isTv]);
 
-  async function getPopularMovies() {
-    const response = await axios(ENDPOINTS.UPCOMING);
-    const movies = response.data.results;
+  const getTopRatedMovies = () => {
+    if (isTv) {
+      dispatch(getUpcomingTvAct());
+    } else {
+      dispatch(getUpcomingAct());
+    }
+  };
 
-    dispatch(updateMovie(movies));
+  if (loading) {
+    return <Loader />;
   }
-
-  const movies = useSelector((store) => store.movies.movies);
 
   return (
     <div>
       <Hero />
       <Category />
-      <Movies title="Upcoming Movies" movies={movies} />
+      <Movies
+        title="Upcoming Movies"
+        movies={movies}
+        data={{
+          first_switch: "Movies",
+          second_switch: "TV Series",
+        }}
+      />
     </div>
   );
 };

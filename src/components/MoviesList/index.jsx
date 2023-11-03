@@ -2,7 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Movies from "../Movies";
 
-const MoviesList = ({ title, ENDPOINTS, sm, md, lg, cursor, swiper, link }) => {
+const MoviesList = ({
+  title,
+  ENDPOINTS,
+  sm,
+  md,
+  lg,
+  cursor,
+  swiper,
+  link,
+  grid,
+  justSwipe,
+}) => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -27,6 +38,8 @@ const MoviesList = ({ title, ENDPOINTS, sm, md, lg, cursor, swiper, link }) => {
         cursor={cursor}
         swiper={swiper}
         link={link}
+        grid={grid}
+        justSwipe={justSwipe}
       />
     </div>
   );

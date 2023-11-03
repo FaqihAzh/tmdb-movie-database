@@ -3,11 +3,26 @@ import ENDPOINTS from "../../utils/constants/endpoint";
 import Typography from "../Typography";
 import Button from "../Button";
 import Overlay from "../Overlay";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const HeroItem = ({ movie }) => {
   const background = ENDPOINTS.ORIGINAL_IMAGE(
     movie.backdrop_path ? movie.backdrop_path : movie.poster_path
   );
+
+  const location = useLocation();
+  const isTv = useSelector((store) => store.movies.tv);
+  const path = location.pathname;
+
+  let mediaType;
+  if (path.includes("/movie")) {
+    mediaType = `/movie/${movie.id}`;
+  } else if (path.includes("/tv")) {
+    mediaType = "/details-tv";
+  } else {
+    mediaType = isTv ? "/details-tv" : `/movie/${movie.id}`;
+  }
 
   return (
     <div
@@ -26,7 +41,7 @@ const HeroItem = ({ movie }) => {
               className="hover:scale-105 "
               isPrimary
               type="link"
-              href={`/movie/${movie.id}`}
+              href={mediaType}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
