@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import MoviesList from "../../components/MoviesList";
 import ENDPOINTS from "../../utils/constants/endpoint";

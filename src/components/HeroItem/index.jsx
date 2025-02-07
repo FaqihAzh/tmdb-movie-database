@@ -26,7 +26,7 @@ const HeroItem = ({ movie }) => {
 
   return (
     <div
-      className="py-24 sm:py-36 w-full relative bg-center bg-cover bg-no-repeat min-h-screen"
+      className="py-24 sm:py-36 w-full relative bg-bottom bg-cover bg-no-repeat min-h-screen"
       style={{ backgroundImage: `url(${background})` }}
     >
       <Overlay />

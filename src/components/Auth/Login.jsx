@@ -14,10 +14,11 @@ import { setToken } from "../../features/reducers/authSlice/authLogin";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "demo@gmail.com",
+    password: "@Demo123#",
   });
 
+  // eslint-disable-next-line no-unused-vars
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
@@ -93,11 +94,12 @@ const Login = () => {
           <Typography className="font-semibold leading-5 text-sm mt-2 text-gray-200">
             Log in and let's explore everything about the world of cinema!
           </Typography>
+
           <div className="flex flex-col gap-2 w-full mt-4">
             <FormInput
               label="Email"
               type="email"
-              placeholder="Enter your email"
+              placeholder="demo@gmail.com"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
@@ -120,7 +122,9 @@ const Login = () => {
             >
               Log In
             </Button>
-
+            <Typography className="font-semibold leading-5 text-sm mt-2 text-gray-200">
+              *You can directly Login using a demo account
+            </Typography>
             <div className="flex gap-2 justify-between items-center w-full my-2">
               <span className="w-full bg-gray-500 h-[1px]"></span>
               <span className="font-medium text-gray-200">Or</span>
